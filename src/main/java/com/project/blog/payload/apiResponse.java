@@ -19,7 +19,7 @@ public class apiResponse {
 
 	@Override
 	public String toString() {
-		return "apiResponse [s=" + s + "]";
+		return "apiResponse [message=" + s + "]";
 	}
 	
 }

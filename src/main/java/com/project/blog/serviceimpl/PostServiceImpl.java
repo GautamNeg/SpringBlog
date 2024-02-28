@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import com.project.blog.exception.ResourceNotFoundException;
 import com.project.blog.repositories.Categoryrepo;
@@ -56,13 +58,17 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<PostDto> getAllPost() {
-		return pr.findAll().stream().map(w->mp.map(w, PostDto.class)).collect(Collectors.toList());
+	public List<PostDto> getAllPost(int pnum,int psize) {
+		
+			org.springframework.data.domain.Pageable pp=PageRequest.of(pnum,psize);   //static method
+			Page<Post> pagepost=this.pr.findAll(pp);								  //do not returns list but returns pages
+			List<Post> list=pagepost.getContent();									  //getting page Content
+		return list.stream().map(w->mp.map(w, PostDto.class)).collect(Collectors.toList());
 	}
 
 	@Override
 	public PostDto updatePost(int id, PostDto p) {
-	     Post post=pr.findById(id).get();
+	     Post post=pr.findById(id).orElseThrow(()->new ResourceNotFoundException("Post","id",id));
 //	     Post updatedP=mp.map(p,Post.class);
 //	     post.setCategory(updatedP.getCategory());
 	     post.setContent(p.getContent());
@@ -77,7 +83,7 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public List<PostDto> getByUser(int id) {
 		// TODO Auto-generated method stub
-		List<Post> p=pr.findByUser(ur.findById(id).get());
+		List<Post> p=pr.findByUser(ur.findById(id).orElseThrow(()->new ResourceNotFoundException("User","id",id)));
 		return p.stream().map(e->this.mp.map(e, PostDto.class)).collect(Collectors.toList());
 	}
 

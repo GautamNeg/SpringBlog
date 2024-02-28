@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.blog.payload.apiResponse;
 import com.project.blog.services.PostService;
 import com.project.blog.util.PostDto;
 
@@ -46,14 +48,16 @@ public class PostController {
 	}
 	
 	@DeleteMapping("delete/{id}")
-	private ResponseEntity delete(@PathVariable int id){
+	private apiResponse delete(@PathVariable int id){
 		ps.deletePost(id);
-		return new ResponseEntity(HttpStatus.OK);
+		return new apiResponse("Successfully deleted");
 	}
 	
-	@GetMapping("getAll")
-	private ResponseEntity<List<PostDto>> all(){
-		return new ResponseEntity<List<PostDto>>(ps.getAllPost(),HttpStatus.OK);
+	@GetMapping("getAll")                 //page number starts with 0
+	private ResponseEntity<List<PostDto>> all(   
+					@RequestParam(value ="number" ,required = false,defaultValue = "1") int pnum,
+					@RequestParam(value = "size",required = false,defaultValue = "4")int psize){
+		return new ResponseEntity<List<PostDto>>(ps.getAllPost(pnum,psize),HttpStatus.OK);
 	}
 	
 	@GetMapping("getPost/{id}")
