@@ -13,8 +13,12 @@ public interface PostService {
 	
 	public PostDto getPost(int id);
 	
-	public void deletePost();
+	public void deletePost(int id);
 	
 	public List<PostDto> getAllPost();
+	
+	public List<PostDto> getByUser(int id);
+	
+	public List<PostDto> getByCategory(int id);
 	
 }

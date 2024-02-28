@@ -8,6 +8,7 @@ public class PostDto {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	private Integer postid;
 	private String title;
 	private String content;
 	private String image;
@@ -50,9 +51,17 @@ public class PostDto {
 	public void setCategory(CategoryDto category) {
 		this.category = category;
 	}
+	public Integer getPostid() {
+		return postid;
+	}
+	public void setPostid(Integer postid) {
+		this.postid = postid;
+	}
 	@Override
 	public String toString() {
-		return "PostDto [title=" + title + ", content=" + content + ", image=" + image + ", date=" + date + ", user="
-				+ user + ", category=" + category + "]";
+		return "PostDto [postid=" + postid + ", title=" + title + ", content=" + content + ", image=" + image
+				+ ", date=" + date + ", user=" + user + ", category=" + category + "]";
 	}
+	
+	
 }

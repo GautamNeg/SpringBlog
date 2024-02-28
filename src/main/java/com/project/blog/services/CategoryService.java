@@ -17,7 +17,4 @@ public interface CategoryService {
 	List<CategoryDto> all();
 	
 	CategoryDto add(CategoryDto cat);
-	
-	
-	
 }
