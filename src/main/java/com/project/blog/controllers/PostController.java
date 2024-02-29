@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.blog.payload.PageResponse;
 import com.project.blog.payload.apiResponse;
 import com.project.blog.services.PostService;
 import com.project.blog.util.PostDto;
@@ -54,14 +55,21 @@ public class PostController {
 	}
 	
 	@GetMapping("getAll")                 //page number starts with 0
-	private ResponseEntity<List<PostDto>> all(   
-					@RequestParam(value ="number" ,required = false,defaultValue = "1") int pnum,
-					@RequestParam(value = "size",required = false,defaultValue = "4")int psize){
-		return new ResponseEntity<List<PostDto>>(ps.getAllPost(pnum,psize),HttpStatus.OK);
+	private ResponseEntity<PageResponse> all(   
+					@RequestParam(value ="number" ,required = false,defaultValue = "0") int pnum,
+					@RequestParam(value = "size",required = false,defaultValue = "4")int psize,
+					@RequestParam(value="sortBy",required = false,defaultValue = "postid") String sortBy,
+					@RequestParam(value="sortType", required = false, defaultValue = "ascending") String sortType){
+		return new ResponseEntity<PageResponse>(ps.getAllPost(pnum,psize,sortBy,sortType),HttpStatus.OK);
 	}
 	
 	@GetMapping("getPost/{id}")
 	private ResponseEntity<PostDto> getOnePost(@PathVariable int id){
 		return new ResponseEntity<PostDto>(ps.getPost(id),HttpStatus.OK);
+	}
+	
+	@GetMapping("searchTitlehaving/{key}")
+	private List<PostDto> search(@PathVariable String key){
+		return ps.search(key);
 	}
 }
