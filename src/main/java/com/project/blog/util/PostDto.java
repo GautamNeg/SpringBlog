@@ -1,6 +1,8 @@
 package com.project.blog.util;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class PostDto {
 
@@ -8,6 +10,7 @@ public class PostDto {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
 	private Integer postid;
 	private String title;
 	private String content;
@@ -15,6 +18,14 @@ public class PostDto {
 	private Date date;
 	private UserDto user;
 	private CategoryDto category;
+	private List<Comment> comment=new ArrayList(); 
+
+	public List<Comment> getComment() {
+		return comment;
+	}
+	public void setComment(List<Comment> comment) {
+		this.comment = comment;
+	}
 	public String getTitle() {
 		return title;
 	}
@@ -57,11 +68,21 @@ public class PostDto {
 	public void setPostid(Integer postid) {
 		this.postid = postid;
 	}
+	public PostDto(Integer postid, String title, String content, String image, Date date, UserDto user,
+			CategoryDto category, List<Comment> comment) {
+		super();
+		this.postid = postid;
+		this.title = title;
+		this.content = content;
+		this.image = image;
+		this.date = date;
+		this.user = user;
+		this.category = category;
+		this.comment = comment;
+	}
 	@Override
 	public String toString() {
 		return "PostDto [postid=" + postid + ", title=" + title + ", content=" + content + ", image=" + image
-				+ ", date=" + date + ", user=" + user + ", category=" + category + "]";
+				+ ", date=" + date + ", user=" + user + ", category=" + category + ", comment=" + comment + "]";
 	}
-	
-	
 }

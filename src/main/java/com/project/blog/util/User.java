@@ -3,6 +3,8 @@ package com.project.blog.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -59,5 +61,6 @@ public class User {
 	@Column(name="about")
 	private String about;
 	@OneToMany(mappedBy ="user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-	private List<Post> post=new ArrayList<>();
+	@JsonManagedReference
+	private List<Post> post=new ArrayList<>();		//we create new list because of one to many relationship
 }
