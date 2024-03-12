@@ -63,7 +63,7 @@ public class PostController {
 					@RequestParam(value="sortType", required = false, defaultValue = AppConstant.acending) String sortType){
 		return new ResponseEntity<PageResponse>(ps.getAllPost(pnum,psize,sortBy,sortType),HttpStatus.OK);
 	}
-	
+	 
 	@GetMapping("getPost/{id}")
 	private ResponseEntity<PostDto> getOnePost(@PathVariable int id){
 		return new ResponseEntity<PostDto>(ps.getPost(id),HttpStatus.OK);
