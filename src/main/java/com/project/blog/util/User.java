@@ -1,9 +1,15 @@
 package com.project.blog.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -22,7 +28,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor
-public class User {
+public class User implements UserDetails{
 
 	public int getUser_Id() {
 		return user_Id;
@@ -85,10 +91,43 @@ public class User {
 	@OneToMany(mappedBy ="user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	@JsonManagedReference
 	private List<Post> post=new ArrayList<>();		//we create new list because of one to many relationship
-
-	@ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinTable(name="users_roles",
 	joinColumns = {@JoinColumn(name="user",referencedColumnName = "user_Id")},
 	inverseJoinColumns = {@JoinColumn(name="role",referencedColumnName = "Role_id")})
 	Set<Role> role=new HashSet();
+	
+	
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		List<SimpleGrantedAuthority> authorities = this.role.stream().map(e-> new SimpleGrantedAuthority(e.getName())).collect(Collectors.toList());
+		return authorities;
+	}
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return this.name;
+	}
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
 }
