@@ -82,20 +82,25 @@ public class User implements UserDetails{
 		this.post = post;
 		this.role = role;
 	}
+	
 	@Column(name="email")
 	private String email;
+	
 	@Column(name="password")
 	private String password;
+	
 	@Column(name="about")
 	private String about;
+	
 	@OneToMany(mappedBy ="user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	@JsonManagedReference
 	private List<Post> post=new ArrayList<>();		//we create new list because of one to many relationship
+	
 	@ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinTable(name="users_roles",
 	joinColumns = {@JoinColumn(name="user",referencedColumnName = "user_Id")},
 	inverseJoinColumns = {@JoinColumn(name="role",referencedColumnName = "Role_id")})
-	Set<Role> role=new HashSet();
+	Set<Role> role=new HashSet();    //using Set as List will give error as we can have duplicate element in list
 	
 	
 	@Override

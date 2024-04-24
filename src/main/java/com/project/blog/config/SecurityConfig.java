@@ -19,9 +19,9 @@ public class SecurityConfig {
 		@Autowired
 		CustomUserDetailService customUserDetailService;
 	
-		@Bean 	
+		@Bean 	//now we are creating our own springsecurityfilterchain 
 		public SecurityFilterChain filterchain(HttpSecurity http) throws Exception{
-			http
+			http.authenticationProvider(daoAuthenticationProvider())
 			.csrf().disable().authorizeRequests().anyRequest()
 			.authenticated().and().httpBasic();
 		

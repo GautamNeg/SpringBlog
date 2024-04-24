@@ -10,7 +10,7 @@ import com.project.blog.repositories.User_repo;
 import com.project.blog.util.User;
 
 @Service
-public class CustomUserDetailService implements UserDetailsService{
+public class CustomUserDetailService implements UserDetailsService{ //creating our own userDetailsManager
 
 	@Autowired
 	private User_repo ur;

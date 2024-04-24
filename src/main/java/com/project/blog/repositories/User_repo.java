@@ -11,4 +11,5 @@ import com.project.blog.util.User;
 public interface User_repo extends JpaRepository<User, Integer>{
 
 	Optional<User> findByName(String name);
+	
 }
