@@ -1,4 +1,4 @@
-package com.project.blog.security;
+package com.project.blog.payload;
 
 public class jwtAuthResponse {
 
