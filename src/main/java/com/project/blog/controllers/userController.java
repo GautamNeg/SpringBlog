@@ -28,7 +28,6 @@ public class userController {
 	@Autowired
 	private UserServiceImpl usimpl;
 	
-	
 	@GetMapping("getUser/{id}")
 	public ResponseEntity<UserDto> getUserById(@PathVariable int id) {
 	UserDto userdto=this.usimpl.getUserById(id);

@@ -5,11 +5,15 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.project.blog.config.AppConstant;
 import com.project.blog.exception.ResourceNotFoundException;
 import com.project.blog.repositories.User_repo;
+import com.project.blog.repositories.role_repo;
 import com.project.blog.services.userService;
+import com.project.blog.util.Role;
 import com.project.blog.util.User;
 import com.project.blog.util.UserDto;
 
@@ -20,6 +24,10 @@ public class UserServiceImpl implements userService{
 	private User_repo userrepo;
 	@Autowired
 	private ModelMapper mp;
+	@Autowired
+	private PasswordEncoder pswdEncode;
+	@Autowired
+	private role_repo Rrepo;
 	
 	@Override
 	public UserDto createUser(UserDto userdto) {
@@ -85,5 +93,20 @@ public class UserServiceImpl implements userService{
 //		userDto.setAbout(user.getAbout());
 //		userDto.setPassword(user.getPassword());
 		return userDto;
+	}
+
+	@Override
+	public UserDto registerUser(UserDto userDto) {
+		// TODO Auto-generated method stub
+		User user=mp.map(userDto, User.class);
+		//encode password
+		user.setPassword(this.pswdEncode.encode(user.getPassword()));
+		//setting roles
+		Role role=this.Rrepo.findById(AppConstant.User).get();
+		user.getrole().add(role); 		//set of role set for this user is null so we are adding role into it.
+		
+		this.userrepo.save(user);
+		
+		return mp.map(user, UserDto.class);
 	}
 }

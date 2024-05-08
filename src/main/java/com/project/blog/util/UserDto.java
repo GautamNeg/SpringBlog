@@ -2,6 +2,9 @@ package com.project.blog.util;
 
 
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -41,6 +44,7 @@ public class UserDto {
 		this.about = about;
 	}
 	
+	
 	private int Id;
 	@NotEmpty
 	@Size(min=4,message="username must be atleast of 4 character")
@@ -52,10 +56,19 @@ public class UserDto {
 //	@Pattern(regexp = )   just generate a pattern or copy from net.
 	private String password;
 	private String about;
+	private Set<RoleDto> Role=new HashSet();
+	
+	
 	@Override
 	public String toString() {
 		return "UserDto [user_Id=" + Id + ", name=" + name + ", email=" + email + ", password=" + password
 				+ ", about=" + about + "]";
+	}
+	public Set<RoleDto> getRole() {
+		return Role;
+	}
+	public void setRole(Set<RoleDto> role) {
+		Role = role;
 	}
 	
 }

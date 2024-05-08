@@ -23,6 +23,13 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<String>(m,HttpStatus.NOT_FOUND);
 	}
 	
+
+	@ExceptionHandler(usernameorpasswordIncorrect.class)
+	public ResponseEntity<String> handleNoResource(usernameorpasswordIncorrect r){
+		String m=r.getMessage();
+		return new ResponseEntity<String>(m,HttpStatus.NOT_FOUND);
+	}
+	
 	@ExceptionHandler(NoSuchElementException.class)
 	public ResponseEntity<apiResponse> noelement(NoSuchElementException m){
 		

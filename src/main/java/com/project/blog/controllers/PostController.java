@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,6 +50,7 @@ public class PostController {
 	return new ResponseEntity<PostDto>(ps.updatePost(id, p),HttpStatus.ACCEPTED);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@DeleteMapping("delete/{id}")
 	private apiResponse delete(@PathVariable int id){
 		ps.deletePost(id);
@@ -64,6 +66,7 @@ public class PostController {
 		return new ResponseEntity<PageResponse>(ps.getAllPost(pnum,psize,sortBy,sortType),HttpStatus.OK);
 	}
 	 
+//	@PreAuthorize("hasRole('USER')")
 	@GetMapping("getPost/{id}")
 	private ResponseEntity<PostDto> getOnePost(@PathVariable int id){
 		return new ResponseEntity<PostDto>(ps.getPost(id),HttpStatus.OK);

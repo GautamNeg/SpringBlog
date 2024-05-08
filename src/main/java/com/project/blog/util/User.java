@@ -60,11 +60,14 @@ public class User implements UserDetails{
 	public void setAbout(String about) {
 		this.about = about;
 	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int user_Id;
+	
 	@Column(name="name")
 	private String name;
+	
 	public Set<Role> getrole() {
 		return role;
 	}
